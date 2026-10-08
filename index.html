@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maullido de gato</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: Arial, sans-serif;
+      background: #fff5e9;
+      text-align: center;
+    }
+
+    .tarjeta {
+      background: white;
+      margin: 20px;
+      padding: 30px;
+      border-radius: 22px;
+      box-shadow: 0 5px 20px #0002;
+    }
+
+    .gato { font-size: 100px; }
+
+    button {
+      padding: 15px 24px;
+      border: 0;
+      border-radius: 30px;
+      background: #ff963b;
+      color: white;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <main class="tarjeta">
+    <div class="gato">🐈</div>
+    <h1>¡Miau!</h1>
+    <p id="estado">Intentando reproducir el sonido...</p>
+
+    <audio id="sonido" preload="auto">
+      <source
+        src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Maullido_de_gata_hembra_joven.ogg"
+        type="audio/ogg">
+    </audio>
+
+    <button id="boton" hidden>🔊 Escuchar maullido</button>
+  </main>
+
+  <script>
+    const audio = document.getElementById("sonido");
+    const estado = document.getElementById("estado");
+    const boton = document.getElementById("boton");
+
+    async function iniciar() {
+      try {
+        await audio.play();
+        estado.textContent = "¡Escucha el maullido del gato!";
+      } catch (error) {
+        estado.textContent =
+          "Tu navegador bloqueó el sonido automático.";
+        boton.hidden = false;
+      }
+    }
+
+    boton.addEventListener("click", async () => {
+      try {
+        await audio.play();
+        boton.hidden = true;
+        estado.textContent = "¡Escucha el maullido del gato!";
+      } catch (error) {
+        estado.textContent = "No se pudo reproducir el audio.";
+      }
+    });
+
+    window.addEventListener("pageshow", iniciar);
+  </script>
+</body>
+</html>
